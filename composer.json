@@ -33,11 +33,5 @@
             "vendor/bin/phpcpd ./ --exclude vendor --exclude Docker",
             "vendor/bin/psalm --show-info=true"
         ]
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/marvin255/jwt"
-        }
-    ]
+    }
 }
