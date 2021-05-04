@@ -24,6 +24,12 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder(self::CONFIG_NAME);
         $treeBuilder->getRootNode()
             ->children()
+                ->integerNode('expiration_leeway')
+                    ->defaultValue(0)
+                ->end()
+                ->integerNode('not_before_leeway')
+                    ->defaultValue(0)
+                ->end()
             ->end()
         ;
 
