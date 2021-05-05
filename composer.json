@@ -7,6 +7,7 @@
     "require": {
         "php": ">=8.0",
         "symfony/framework-bundle": "^5.0",
+        "symfony/dependency-injection": "^5.0",
         "marvin255/jwt": "dev-master"
     },
     "require-dev": {

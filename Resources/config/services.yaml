@@ -1,54 +1,34 @@
 services:
 
 
-
     marvin255_jwt_symfony.builder:
         class: Marvin255\Jwt\Builder\Builder
         shared: false
-
     Marvin255\Jwt\JwtBuilder:
         alias: marvin255_jwt_symfony.builder
 
 
-
     marvin255_jwt_symfony.encoder:
         class: Marvin255\Jwt\Encoder\Encoder
-
     Marvin255\Jwt\JwtEncoder:
         alias: marvin255_jwt_symfony.encoder
-
 
 
     marvin255_jwt_symfony.decoder:
         class: Marvin255\Jwt\Decoder\Decoder
         arguments:
             - '@marvin255_jwt_symfony.builder'
-
     Marvin255\Jwt\JwtDecoder:
         alias: marvin255_jwt_symfony.decoder
 
 
-
     marvin255_jwt_symfony.validator:
         class: Marvin255\Jwt\Validator\Validator
-        arguments:
-            - !tagged_iterator marvin255_jwt_symfony.constraint
-
     Marvin255\Jwt\JwtValidator:
         alias: marvin255_jwt_symfony.validator
 
 
-
-    marvin255_jwt_symfony.constraint.expiration:
-        class: Marvin255\Jwt\Validator\ExpirationConstraint
+    Marvin255\Jwt\Symfony\Profile\JwtProfileManager:
+        class: Marvin255\Jwt\Symfony\Profile\JwtProfileManager
         arguments:
-            - '%marvin255_jwt_symfony.expiration_leeway%'
-        tags:
-            - { name: 'marvin255_jwt_symfony.constraint' }
-
-    marvin255_jwt_symfony.constraint.not_before:
-        class: Marvin255\Jwt\Validator\NotBeforeConstraint
-        arguments:
-            - '%marvin255_jwt_symfony.not_before_leeway%'
-        tags:
-            - { name: 'marvin255_jwt_symfony.constraint' }
+            - !tagged_iterator marvin255_jwt_symfony.registered_profiles
