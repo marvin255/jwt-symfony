@@ -1,6 +1,6 @@
 # JWT
 
-[![Build Status](https://github.com/marvin255/jwt-symfony/workflows/marvin255_jwt_symfony/badge.svg)](https://github.com/marvin255/jwt-symfony/actions?query=workflow%3A%22jwt_symfony%22)
+[![Build Status](https://github.com/marvin255/jwt-symfony/workflows/jwt_symfony/badge.svg)](https://github.com/marvin255/jwt-symfony/actions?query=workflow%3A%22jwt_symfony%22)
 
 Symfony bundle for [marvin255/jwt](https://github.com/marvin255/jwt) lib.
 
