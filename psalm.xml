@@ -16,5 +16,10 @@
     </projectFiles>
 
     <issueHandlers>
+        <PropertyNotSetInConstructor errorLevel="suppress"/>
     </issueHandlers>
+
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
 </psalm>
