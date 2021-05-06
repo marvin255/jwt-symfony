@@ -7,6 +7,7 @@ namespace Marvin255\Jwt\Symfony\Profile;
 use Marvin255\Jwt\JwtBuilder;
 use Marvin255\Jwt\JwtDecoder;
 use Marvin255\Jwt\JwtEncoder;
+use Marvin255\Jwt\JwtSigner;
 use Marvin255\Jwt\JwtValidator;
 
 /**
@@ -24,18 +25,22 @@ class JwtProfile
 
     private JwtValidator $validator;
 
+    private ?JwtSigner $signer;
+
     public function __construct(
         string $name,
         JwtDecoder $decoder,
         JwtEncoder $encoder,
         JwtBuilder $builder,
-        JwtValidator $validator
+        JwtValidator $validator,
+        ?JwtSigner $signer = null
     ) {
         $this->name = $name;
         $this->decoder = $decoder;
         $this->encoder = $encoder;
         $this->builder = $builder;
         $this->validator = $validator;
+        $this->signer = $signer;
     }
 
     /**
@@ -75,6 +80,10 @@ class JwtProfile
      */
     public function getBuilder(): JwtBuilder
     {
+        if ($this->signer !== null) {
+            $this->builder->signWith($this->signer);
+        }
+
         return $this->builder;
     }
 
@@ -86,5 +95,15 @@ class JwtProfile
     public function getValidator(): JwtValidator
     {
         return $this->validator;
+    }
+
+    /**
+     * Returns signer associated to this profile.
+     *
+     * @return JwtSigner
+     */
+    public function getSigner(): ?JwtSigner
+    {
+        return $this->signer;
     }
 }
