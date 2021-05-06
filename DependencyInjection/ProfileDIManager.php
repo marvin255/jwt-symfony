@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Marvin255\Jwt\Symfony\DependencyInjection;
 
 use Marvin255\Jwt\Signer\Algorithm;
-use Marvin255\Jwt\Signer\SecretFile;
-use Marvin255\Jwt\Signer\SecretString;
+use Marvin255\Jwt\Signer\SecretBase;
 use Marvin255\Jwt\Symfony\Profile\JwtProfile;
 use Marvin255\Jwt\Validator\AudienceConstraint;
 use Marvin255\Jwt\Validator\ExpirationConstraint;
@@ -55,65 +54,69 @@ class ProfileDIManager
             return;
         }
 
-        $signer = $container
-            ->register(
-                $this->createSignerServiceName(),
-                Algorithm::IMPLEMENTATIONS[$this->description['signer']]
-            )
-        ;
-
         if (\in_array($this->description['signer'], Algorithm::HMAC)) {
-            $secretName = $this->createProfileServiceName('secret');
-            $this->registerSecret(
-                $container,
-                $secretName,
-                (string) $this->description['signer_private'],
-                null
-            );
-            $signer->addArgument(new Reference($secretName));
+            $this->registerSignerHmac($container);
         } elseif (\in_array($this->description['signer'], Algorithm::RSA)) {
-            if ($this->description['signer_public'] !== null) {
-                $publicKeyName = $this->createProfileServiceName('public_key');
-                $this->registerSecret(
-                    $container,
-                    $publicKeyName,
-                    (string) $this->description['signer_public'],
-                    null
-                );
-                $signer->addArgument(new Reference($publicKeyName));
-            } else {
-                $signer->addArgument(null);
-            }
-            if ($this->description['signer_private'] !== null) {
-                $privateKeyName = $this->createProfileServiceName('private_key');
-                $this->registerSecret(
-                    $container,
-                    $privateKeyName,
-                    (string) $this->description['signer_private'],
-                    $this->description['signer_private_password']
-                );
-                $signer->addArgument(new Reference($privateKeyName));
-            } else {
-                $signer->addArgument(null);
-            }
+            $this->registerSignerRsa($container);
         }
     }
 
     /**
-     * Registers new secret key.
+     * Registers profile HMAC based signer.
      *
      * @param ContainerBuilder $container
-     * @param string           $name
-     * @param string           $secret
-     * @param string|null      $password
      */
-    private function registerSecret(ContainerBuilder $container, string $name, string $secret, ?string $password): void
+    private function registerSignerHmac(ContainerBuilder $container): void
     {
-        $class = str_starts_with($secret, 'file://') ? SecretFile::class : SecretString::class;
+        $secretName = $this->createProfileServiceName('secret');
+
         $container
-            ->register($name, $class)
-            ->addArgument($secret)
-            ->addArgument($password)
+            ->register($secretName, SecretBase::class)
+            ->addArgument((string) $this->description['signer_private'])
+        ;
+
+        $container
+            ->register(
+                $this->createSignerServiceName(),
+                Algorithm::IMPLEMENTATIONS[$this->description['signer']]
+            )
+            ->addArgument(new Reference($secretName))
+        ;
+    }
+
+    /**
+     * Registers profile RSA based signer.
+     *
+     * @param ContainerBuilder $container
+     */
+    private function registerSignerRsa(ContainerBuilder $container): void
+    {
+        $publicKeyName = null;
+        if ($this->description['signer_public'] !== null) {
+            $publicKeyName = $this->createProfileServiceName('public_key');
+            $container
+                ->register($publicKeyName, SecretBase::class)
+                ->addArgument($this->description['signer_public'])
+            ;
+        }
+
+        $privateKeyName = null;
+        if ($this->description['signer_private'] !== null) {
+            $privateKeyName = $this->createProfileServiceName('private_key');
+            $container
+                ->register($privateKeyName, SecretBase::class)
+                ->addArgument($this->description['signer_private'])
+                ->addArgument($this->description['signer_private_password'])
+            ;
+        }
+
+        $container
+            ->register(
+                $this->createSignerServiceName(),
+                Algorithm::IMPLEMENTATIONS[$this->description['signer']]
+            )
+            ->addArgument($publicKeyName === null ? null : new Reference($publicKeyName))
+            ->addArgument($privateKeyName === null ? null : new Reference($privateKeyName))
         ;
     }
 
