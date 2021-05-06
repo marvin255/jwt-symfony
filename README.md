@@ -43,6 +43,7 @@ marvin255_jwt_symfony:
 ## Usage
 
 ```php
+<?php
 use Marvin255\Jwt\Symfony\Profile\JwtProfileManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,19 +58,36 @@ class SiteController extends AbstractController
         $this->manager = $manager;
     }
 
-    public function action(Request $request): void`
+    public function read(Request $request): void
     {
+        // select profile
         $jwtProfile = $this->jwtProfileManager->profile('basic');
 
         $tokenHeader = $request->headers->get('Authorization');
 
+        // decode token from header string
         $token = $jwtProfile->getDecoder()->decodeString($tokenHeader);
 
+        // validate token
         $validationResult = $jwtProfile->getValidator()->validate($token);
         if (!$validationResult->isValid()) {
             $message = implode('. ', $validationResult->getErrors());
             throw new RuntimeException($message);
         }
+    }
+
+    public function build(): void
+    {
+        // select profile
+        $jwtProfile = $this->jwtProfileManager->profile('basic');
+
+        // decode token from header string
+        $token = $jwtProfile
+            ->getBuilder()
+            ->setJoseParam('test', 'test') // any custom JOSE param
+            ->setIss('test')               // registered claims have own setters
+            ->setClaim('test', 'test')     // any custom claim
+            ->build();
     }
 }
 ```
