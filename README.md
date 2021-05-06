@@ -43,7 +43,6 @@ marvin255_jwt_symfony:
 ## Usage
 
 ```php
-<?php
 use Marvin255\Jwt\Symfony\Profile\JwtProfileManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
