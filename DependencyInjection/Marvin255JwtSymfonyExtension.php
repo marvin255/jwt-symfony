@@ -22,8 +22,8 @@ class Marvin255JwtSymfonyExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $this->loadConfigurationToContainer($configs, $container);
-        $this->loadServicesToContainer($container);
+        $loadedConfig = $this->loadConfigurationToContainer($configs, $container);
+        $this->loadServicesToContainer($loadedConfig, $container);
     }
 
     /**
@@ -31,27 +31,42 @@ class Marvin255JwtSymfonyExtension extends Extension
      *
      * @param array            $configs
      * @param ContainerBuilder $container
+     *
+     * @return array
      */
-    protected function loadConfigurationToContainer(array $configs, ContainerBuilder $container): void
+    private function loadConfigurationToContainer(array $configs, ContainerBuilder $container): array
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+
+        $loadedConfig = [];
         foreach ($config as $key => $value) {
-            $container->setParameter(Configuration::CONFIG_NAME . '.' . $key, $value);
+            $prefixedKey = Configuration::CONFIG_NAME . '.' . $key;
+            $container->setParameter($prefixedKey, $value);
+            $loadedConfig[$key] = $value;
         }
+
+        return $loadedConfig;
     }
 
     /**
-     * Register bundle services.
+     * Registers bundle services.
      *
+     * @param array            $configs
      * @param ContainerBuilder $container
      *
      * @throws Exception
      */
-    protected function loadServicesToContainer(ContainerBuilder $container): void
+    private function loadServicesToContainer(array $configs, ContainerBuilder $container): void
     {
         $configDir = \dirname(__DIR__) . '/Resources/config';
+
         $loader = new YamlFileLoader($container, new FileLocator($configDir));
         $loader->load('services.yaml');
+
+        foreach ($configs['profiles'] as $profileName => $profileDescription) {
+            $profileManager = new ProfileDIManager($profileName, $profileDescription);
+            $profileManager->registerProfile($container);
+        }
     }
 }
