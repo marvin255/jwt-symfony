@@ -13,97 +13,35 @@ use Marvin255\Jwt\JwtValidator;
 /**
  * Object that stores profile for set JWT.
  */
-class JwtProfile
+interface JwtProfile
 {
-    private string $name;
-
-    private JwtDecoder $decoder;
-
-    private JwtEncoder $encoder;
-
-    private JwtBuilder $builder;
-
-    private JwtValidator $validator;
-
-    private ?JwtSigner $signer;
-
-    public function __construct(
-        string $name,
-        JwtDecoder $decoder,
-        JwtEncoder $encoder,
-        JwtBuilder $builder,
-        JwtValidator $validator,
-        ?JwtSigner $signer = null
-    ) {
-        $this->name = $name;
-        $this->decoder = $decoder;
-        $this->encoder = $encoder;
-        $this->builder = $builder;
-        $this->validator = $validator;
-        $this->signer = $signer;
-    }
-
     /**
      * Returns name for this profile.
-     *
-     * @return string
      */
-    public function getName(): string
-    {
-        return $this->name;
-    }
+    public function getName(): string;
 
     /**
      * Returns encoder associated to this profile.
-     *
-     * @return JwtEncoder
      */
-    public function getEncoder(): JwtEncoder
-    {
-        return $this->encoder;
-    }
+    public function getEncoder(): JwtEncoder;
 
     /**
      * Returns decoder associated to this profile.
-     *
-     * @return JwtDecoder
      */
-    public function getDecoder(): JwtDecoder
-    {
-        return $this->decoder;
-    }
+    public function getDecoder(): JwtDecoder;
 
     /**
      * Returns decoder associated to this profile.
-     *
-     * @return JwtBuilder
      */
-    public function getBuilder(): JwtBuilder
-    {
-        if ($this->signer !== null) {
-            $this->builder->signWith($this->signer);
-        }
-
-        return $this->builder;
-    }
+    public function getBuilder(): JwtBuilder;
 
     /**
      * Returns validator associated to this profile.
-     *
-     * @return JwtValidator
      */
-    public function getValidator(): JwtValidator
-    {
-        return $this->validator;
-    }
+    public function getValidator(): JwtValidator;
 
     /**
      * Returns signer associated to this profile.
-     *
-     * @return JwtSigner
      */
-    public function getSigner(): ?JwtSigner
-    {
-        return $this->signer;
-    }
+    public function getSigner(): ?JwtSigner;
 }

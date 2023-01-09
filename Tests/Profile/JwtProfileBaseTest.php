@@ -9,24 +9,30 @@ use Marvin255\Jwt\JwtDecoder;
 use Marvin255\Jwt\JwtEncoder;
 use Marvin255\Jwt\JwtSigner;
 use Marvin255\Jwt\JwtValidator;
-use Marvin255\Jwt\Symfony\Profile\JwtProfile;
+use Marvin255\Jwt\Symfony\Profile\JwtProfileBase;
 use Marvin255\Jwt\Symfony\Tests\BaseCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @internal
  */
-class JwtProfileTest extends BaseCase
+class JwtProfileBaseTest extends BaseCase
 {
     public function testGetName(): void
     {
         $name = 'name';
+        /** @var MockObject&JwtDecoder */
         $decoder = $this->getMockBuilder(JwtDecoder::class)->getMock();
+        /** @var MockObject&JwtEncoder */
         $encoder = $this->getMockBuilder(JwtEncoder::class)->getMock();
+        /** @var MockObject&JwtBuilder */
         $builder = $this->getMockBuilder(JwtBuilder::class)->getMock();
+        /** @var MockObject&JwtValidator */
         $validator = $this->getMockBuilder(JwtValidator::class)->getMock();
+        /** @var MockObject&JwtSigner */
         $signer = $this->getMockBuilder(JwtSigner::class)->getMock();
 
-        $profile = new JwtProfile(
+        $profile = new JwtProfileBase(
             $name,
             $decoder,
             $encoder,
@@ -42,13 +48,18 @@ class JwtProfileTest extends BaseCase
     public function testGetDecoder(): void
     {
         $name = 'name';
+        /** @var MockObject&JwtDecoder */
         $decoder = $this->getMockBuilder(JwtDecoder::class)->getMock();
+        /** @var MockObject&JwtEncoder */
         $encoder = $this->getMockBuilder(JwtEncoder::class)->getMock();
+        /** @var MockObject&JwtBuilder */
         $builder = $this->getMockBuilder(JwtBuilder::class)->getMock();
+        /** @var MockObject&JwtValidator */
         $validator = $this->getMockBuilder(JwtValidator::class)->getMock();
+        /** @var MockObject&JwtSigner */
         $signer = $this->getMockBuilder(JwtSigner::class)->getMock();
 
-        $profile = new JwtProfile(
+        $profile = new JwtProfileBase(
             $name,
             $decoder,
             $encoder,
@@ -64,13 +75,18 @@ class JwtProfileTest extends BaseCase
     public function testGetEncoder(): void
     {
         $name = 'name';
+        /** @var MockObject&JwtDecoder */
         $decoder = $this->getMockBuilder(JwtDecoder::class)->getMock();
+        /** @var MockObject&JwtEncoder */
         $encoder = $this->getMockBuilder(JwtEncoder::class)->getMock();
+        /** @var MockObject&JwtBuilder */
         $builder = $this->getMockBuilder(JwtBuilder::class)->getMock();
+        /** @var MockObject&JwtValidator */
         $validator = $this->getMockBuilder(JwtValidator::class)->getMock();
+        /** @var MockObject&JwtSigner */
         $signer = $this->getMockBuilder(JwtSigner::class)->getMock();
 
-        $profile = new JwtProfile(
+        $profile = new JwtProfileBase(
             $name,
             $decoder,
             $encoder,
@@ -86,13 +102,18 @@ class JwtProfileTest extends BaseCase
     public function testGetBuilder(): void
     {
         $name = 'name';
+        /** @var MockObject&JwtDecoder */
         $decoder = $this->getMockBuilder(JwtDecoder::class)->getMock();
+        /** @var MockObject&JwtEncoder */
         $encoder = $this->getMockBuilder(JwtEncoder::class)->getMock();
+        /** @var MockObject&JwtBuilder */
         $builder = $this->getMockBuilder(JwtBuilder::class)->getMock();
+        /** @var MockObject&JwtValidator */
         $validator = $this->getMockBuilder(JwtValidator::class)->getMock();
+        /** @var MockObject&JwtSigner */
         $signer = $this->getMockBuilder(JwtSigner::class)->getMock();
 
-        $profile = new JwtProfile(
+        $profile = new JwtProfileBase(
             $name,
             $decoder,
             $encoder,
@@ -108,13 +129,18 @@ class JwtProfileTest extends BaseCase
     public function testGetValidator(): void
     {
         $name = 'name';
+        /** @var MockObject&JwtDecoder */
         $decoder = $this->getMockBuilder(JwtDecoder::class)->getMock();
+        /** @var MockObject&JwtEncoder */
         $encoder = $this->getMockBuilder(JwtEncoder::class)->getMock();
+        /** @var MockObject&JwtBuilder */
         $builder = $this->getMockBuilder(JwtBuilder::class)->getMock();
+        /** @var MockObject&JwtValidator */
         $validator = $this->getMockBuilder(JwtValidator::class)->getMock();
+        /** @var MockObject&JwtSigner */
         $signer = $this->getMockBuilder(JwtSigner::class)->getMock();
 
-        $profile = new JwtProfile(
+        $profile = new JwtProfileBase(
             $name,
             $decoder,
             $encoder,
@@ -130,13 +156,18 @@ class JwtProfileTest extends BaseCase
     public function testGetSigner(): void
     {
         $name = 'name';
+        /** @var MockObject&JwtDecoder */
         $decoder = $this->getMockBuilder(JwtDecoder::class)->getMock();
+        /** @var MockObject&JwtEncoder */
         $encoder = $this->getMockBuilder(JwtEncoder::class)->getMock();
+        /** @var MockObject&JwtBuilder */
         $builder = $this->getMockBuilder(JwtBuilder::class)->getMock();
+        /** @var MockObject&JwtValidator */
         $validator = $this->getMockBuilder(JwtValidator::class)->getMock();
+        /** @var MockObject&JwtSigner */
         $signer = $this->getMockBuilder(JwtSigner::class)->getMock();
 
-        $profile = new JwtProfile(
+        $profile = new JwtProfileBase(
             $name,
             $decoder,
             $encoder,

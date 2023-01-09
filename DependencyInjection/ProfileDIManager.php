@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Marvin255\Jwt\Symfony\DependencyInjection;
 
 use Marvin255\Jwt\Signer\Algorithm;
+use Marvin255\Jwt\Signer\AlgorithmType;
 use Marvin255\Jwt\Signer\SecretBase;
 use Marvin255\Jwt\Symfony\Profile\JwtProfile;
 use Marvin255\Jwt\Validator\AudienceConstraint;
@@ -13,17 +14,19 @@ use Marvin255\Jwt\Validator\NotBeforeConstraint;
 use Marvin255\Jwt\Validator\SignatureConstraint;
 use Marvin255\Jwt\Validator\Validator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
+
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Object that can configure DI container for set JWT profile.
  */
-class ProfileDIManager
+final class ProfileDIManager
 {
-    private string $name;
+    private readonly string $name;
 
-    private array $description;
+    private readonly array $description;
 
     public function __construct(string $name, array $description)
     {
@@ -33,8 +36,6 @@ class ProfileDIManager
 
     /**
      * Registers all services related to current JWT profile.
-     *
-     * @param ContainerBuilder $container
      */
     public function registerProfile(ContainerBuilder $container): void
     {
@@ -45,28 +46,34 @@ class ProfileDIManager
 
     /**
      * Registers profile signer.
-     *
-     * @param ContainerBuilder $container
      */
     private function registerSigner(ContainerBuilder $container): void
     {
-        if (!isset(Algorithm::IMPLEMENTATIONS[$this->description['signer']])) {
+        $signerAlgName = (string) ($this->description['signer'] ?? '');
+
+        $signerAlg = null;
+        foreach (Algorithm::cases() as $alg) {
+            if ($alg->value === $signerAlgName) {
+                $signerAlg = $alg;
+                break;
+            }
+        }
+
+        if ($signerAlg === null) {
             return;
         }
 
-        if (\in_array($this->description['signer'], Algorithm::HMAC)) {
-            $this->registerSignerHmac($container);
-        } elseif (\in_array($this->description['signer'], Algorithm::RSA)) {
-            $this->registerSignerRsa($container);
+        if ($signerAlg->getType() === AlgorithmType::HMAC) {
+            $this->registerSignerHmac($container, $signerAlg);
+        } elseif ($signerAlg->getType() === AlgorithmType::RSA) {
+            $this->registerSignerRsa($container, $signerAlg);
         }
     }
 
     /**
      * Registers profile HMAC based signer.
-     *
-     * @param ContainerBuilder $container
      */
-    private function registerSignerHmac(ContainerBuilder $container): void
+    private function registerSignerHmac(ContainerBuilder $container, Algorithm $alg): void
     {
         $secretName = $this->createProfileServiceName('secret');
 
@@ -78,7 +85,7 @@ class ProfileDIManager
         $container
             ->register(
                 $this->createSignerServiceName(),
-                Algorithm::IMPLEMENTATIONS[$this->description['signer']]
+                $alg->getImplementation()
             )
             ->addArgument(new Reference($secretName))
         ;
@@ -86,10 +93,8 @@ class ProfileDIManager
 
     /**
      * Registers profile RSA based signer.
-     *
-     * @param ContainerBuilder $container
      */
-    private function registerSignerRsa(ContainerBuilder $container): void
+    private function registerSignerRsa(ContainerBuilder $container, Algorithm $alg): void
     {
         $publicKeyName = null;
         if ($this->description['signer_public'] !== null) {
@@ -113,7 +118,7 @@ class ProfileDIManager
         $container
             ->register(
                 $this->createSignerServiceName(),
-                Algorithm::IMPLEMENTATIONS[$this->description['signer']]
+                $alg->getImplementation()
             )
             ->addArgument($publicKeyName === null ? null : new Reference($publicKeyName))
             ->addArgument($privateKeyName === null ? null : new Reference($privateKeyName))
@@ -122,8 +127,6 @@ class ProfileDIManager
 
     /**
      * Registers profile validator.
-     *
-     * @param ContainerBuilder $container
      *
      * @psalm-suppress UndefinedFunction
      */
@@ -187,8 +190,6 @@ class ProfileDIManager
 
     /**
      * Registers profile itself.
-     *
-     * @param ContainerBuilder $container
      */
     private function registerProfileObject(ContainerBuilder $container): void
     {
@@ -217,10 +218,6 @@ class ProfileDIManager
 
     /**
      * Creates full service name for set name related to bundle.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     private function createBundleServiceName(string $name): string
     {
@@ -229,10 +226,6 @@ class ProfileDIManager
 
     /**
      * Creates full service name for set name related to profile.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     private function createProfileServiceName(string $name): string
     {
@@ -241,8 +234,6 @@ class ProfileDIManager
 
     /**
      * Returns name for validator service.
-     *
-     * @return string
      */
     private function createValidatorServiceName(): string
     {
@@ -251,8 +242,6 @@ class ProfileDIManager
 
     /**
      * Returns name for signer service.
-     *
-     * @return string
      */
     private function createSignerServiceName(): string
     {

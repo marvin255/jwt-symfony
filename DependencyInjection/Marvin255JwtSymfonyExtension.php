@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Marvin255\Jwt\Symfony\DependencyInjection;
 
-use Exception;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -18,7 +17,7 @@ class Marvin255JwtSymfonyExtension extends Extension
     /**
      * {@inheritDoc}
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function load(array $configs, ContainerBuilder $container): void
     {
@@ -28,11 +27,6 @@ class Marvin255JwtSymfonyExtension extends Extension
 
     /**
      * Registers bundle configurations.
-     *
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     *
-     * @return array
      */
     private function loadConfigurationToContainer(array $configs, ContainerBuilder $container): array
     {
@@ -52,10 +46,7 @@ class Marvin255JwtSymfonyExtension extends Extension
     /**
      * Registers bundle services.
      *
-     * @param array            $configs
-     * @param ContainerBuilder $container
-     *
-     * @throws Exception
+     * @throws \Exception
      */
     private function loadServicesToContainer(array $configs, ContainerBuilder $container): void
     {
