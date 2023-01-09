@@ -93,16 +93,16 @@ jobs:
           cat $SYMFONY_FOLDER/config/bundles.php | grep "Marvin255JwtSymfonyBundle"
       - name: Check that builder is registered
         run: |
-          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\Builder\\Builder"
+          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\JwtBuilder"
       - name: Check that decoder is registered
         run: |
-          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\Decoder\\Decoder"
+          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\JwtEncoder"
       - name: Check that encoder is registered
         run: |
-          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\Encoder\\Encoder"
+          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\JwtDecoder"
       - name: Check that validator is registered
         run: |
-          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\Validator\\Validator"
+          $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\JwtValidator"
       - name: Check that profile manager is registered
         run: |
           $SYMFONY_FOLDER/bin/console debug:container "Marvin255\\Jwt\\Symfony\\Profile\\JwtProfileManager"
