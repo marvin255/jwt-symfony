@@ -4,51 +4,47 @@ declare(strict_types=1);
 
 namespace Marvin255\Jwt\Symfony\Profile;
 
-use InvalidArgumentException;
-
 /**
  * Object that stores all JWT profiles.
  */
-class JwtProfileManager
+final class JwtProfileManager
 {
     /**
      * @var JwtProfile[]
      */
-    private array $profiles;
+    private readonly array $profiles;
 
     public function __construct(iterable $profiles = [])
     {
-        $this->profiles = [];
+        $returnProfiles = [];
         foreach ($profiles as $profile) {
             if (!($profile instanceof JwtProfile)) {
-                $message = sprintf('JWT profile must implements %s.', JwtProfile::class);
-                throw new InvalidArgumentException($message);
+                throw new \InvalidArgumentException(sprintf('JWT profile must implements %s.', JwtProfile::class));
             }
-            $this->profiles[$profile->getName()] = $profile;
+            $returnProfiles[$profile->getName()] = $profile;
         }
+
+        $this->profiles = $returnProfiles;
     }
 
     /**
      * Returns profile by set name or first profile if name is omitted.
      *
-     * @param string|null $name
-     *
-     * @return JwtProfile
-     *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function profile(?string $name = null): JwtProfile
     {
+        $defaultKey = array_key_first($this->profiles);
+
         $profile = null;
-        if ($name === null) {
-            $profile = reset($this->profiles);
+        if ($name === null && $defaultKey !== null) {
+            $profile = $this->profiles[$defaultKey];
         } elseif (isset($this->profiles[$name])) {
             $profile = $this->profiles[$name];
         }
 
         if (!($profile instanceof JwtProfile)) {
-            $message = sprintf("Can't find profile with name '%s'.", (string) $name);
-            throw new InvalidArgumentException($message);
+            throw new \InvalidArgumentException(sprintf("Can't find profile with name '%s'.", (string) $name));
         }
 
         return $profile;

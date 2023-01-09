@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Marvin255\Jwt\Symfony\Tests\Profile;
 
-use InvalidArgumentException;
 use Marvin255\Jwt\Symfony\Profile\JwtProfile;
 use Marvin255\Jwt\Symfony\Profile\JwtProfileManager;
 use Marvin255\Jwt\Symfony\Tests\BaseCase;
@@ -16,19 +15,15 @@ class JwtProfileManagerTest extends BaseCase
 {
     public function testConstructorException(): void
     {
-        $profile = $this->getMockBuilder(JwtProfile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         new JwtProfileManager([$profile, 'test']);
     }
 
     public function testProfile(): void
     {
-        $profile = $this->getMockBuilder(JwtProfile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
         $profile->method('getName')->willReturn('test');
 
         $profile1 = $this->getMockBuilder(JwtProfile::class)
@@ -44,9 +39,7 @@ class JwtProfileManagerTest extends BaseCase
 
     public function testProfileDefault(): void
     {
-        $profile = $this->getMockBuilder(JwtProfile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
         $profile->method('getName')->willReturn('test');
 
         $profile1 = $this->getMockBuilder(JwtProfile::class)
@@ -62,14 +55,12 @@ class JwtProfileManagerTest extends BaseCase
 
     public function testProfileNotFound(): void
     {
-        $profile = $this->getMockBuilder(JwtProfile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
         $profile->method('getName')->willReturn('test');
 
         $manager = new JwtProfileManager([$profile]);
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $manager->profile('test_1');
     }
 }

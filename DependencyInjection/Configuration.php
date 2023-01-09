@@ -51,7 +51,7 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue('')
                         ->end()
                         ->enumNode('signer')
-                            ->values(array_keys(Algorithm::IMPLEMENTATIONS))
+                            ->values($this->getSignersNames())
                         ->end()
                         ->scalarNode('signer_private')
                             ->defaultValue(null)
@@ -71,5 +71,18 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $treeBuilder;
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getSignersNames(): array
+    {
+        $return = [];
+        foreach (Algorithm::cases() as $alg) {
+            $return[] = $alg->value;
+        }
+
+        return $return;
     }
 }
