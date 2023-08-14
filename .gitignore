@@ -9,6 +9,6 @@ composer.lock
 Tests/coverage
 Docker/.env
 test.php
-benchmark.php
+infection.log
 
 .~lock.*
