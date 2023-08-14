@@ -14,24 +14,21 @@ use Marvin255\Jwt\Validator\NotBeforeConstraint;
 use Marvin255\Jwt\Validator\SignatureConstraint;
 use Marvin255\Jwt\Validator\Validator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_iterator;
 
-use Symfony\Component\DependencyInjection\Reference;
-
 /**
  * Object that can configure DI container for set JWT profile.
+ *
+ * @internal
  */
 final class ProfileDIManager
 {
-    private readonly string $name;
-
-    private readonly array $description;
-
-    public function __construct(string $name, array $description)
-    {
-        $this->name = $name;
-        $this->description = $description;
+    public function __construct(
+        private readonly string $name,
+        private readonly array $description
+    ) {
     }
 
     /**

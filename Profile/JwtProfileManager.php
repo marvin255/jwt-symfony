@@ -19,7 +19,7 @@ final class JwtProfileManager
         $returnProfiles = [];
         foreach ($profiles as $profile) {
             if (!($profile instanceof JwtProfile)) {
-                throw new \InvalidArgumentException(sprintf('JWT profile must implements %s.', JwtProfile::class));
+                throw new \InvalidArgumentException('JWT profile must implements ' . JwtProfile::class);
             }
             $returnProfiles[$profile->getName()] = $profile;
         }
@@ -32,7 +32,7 @@ final class JwtProfileManager
      *
      * @throws \InvalidArgumentException
      */
-    public function profile(?string $name = null): JwtProfile
+    public function profile(string $name = null): JwtProfile
     {
         $defaultKey = array_key_first($this->profiles);
 
@@ -44,7 +44,7 @@ final class JwtProfileManager
         }
 
         if (!($profile instanceof JwtProfile)) {
-            throw new \InvalidArgumentException(sprintf("Can't find profile with name '%s'.", (string) $name));
+            throw new \InvalidArgumentException("Can't find profile with name {$name}");
         }
 
         return $profile;

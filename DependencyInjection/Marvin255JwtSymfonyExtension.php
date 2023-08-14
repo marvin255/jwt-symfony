@@ -11,8 +11,10 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * Object tha defines all bundle data.
+ *
+ * @internal
  */
-class Marvin255JwtSymfonyExtension extends Extension
+final class Marvin255JwtSymfonyExtension extends Extension
 {
     /**
      * {@inheritDoc}

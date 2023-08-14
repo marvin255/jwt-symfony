@@ -9,6 +9,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * Bundle object.
  */
-class Marvin255JwtSymfonyBundle extends Bundle
+final class Marvin255JwtSymfonyBundle extends Bundle
 {
 }
