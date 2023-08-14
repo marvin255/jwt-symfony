@@ -10,8 +10,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Object for bundle configurations.
+ *
+ * @internal
  */
-class Configuration implements ConfigurationInterface
+final class Configuration implements ConfigurationInterface
 {
     public const CONFIG_NAME = 'marvin255_jwt_symfony';
 

@@ -32,7 +32,7 @@ final class JwtProfileManager
      *
      * @throws \InvalidArgumentException
      */
-    public function profile(?string $name = null): JwtProfile
+    public function profile(string $name = null): JwtProfile
     {
         $defaultKey = array_key_first($this->profiles);
 

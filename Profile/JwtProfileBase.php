@@ -12,35 +12,19 @@ use Marvin255\Jwt\JwtValidator;
 
 /**
  * Object that stores profile for set JWT.
+ *
+ * @internal
  */
 final class JwtProfileBase implements JwtProfile
 {
-    private readonly string $name;
-
-    private readonly JwtDecoder $decoder;
-
-    private readonly JwtEncoder $encoder;
-
-    private readonly JwtBuilder $builder;
-
-    private readonly JwtValidator $validator;
-
-    private readonly ?JwtSigner $signer;
-
     public function __construct(
-        string $name,
-        JwtDecoder $decoder,
-        JwtEncoder $encoder,
-        JwtBuilder $builder,
-        JwtValidator $validator,
-        ?JwtSigner $signer = null
+        private readonly string $name,
+        private readonly JwtDecoder $decoder,
+        private readonly JwtEncoder $encoder,
+        private readonly JwtBuilder $builder,
+        private readonly JwtValidator $validator,
+        private readonly ?JwtSigner $signer = null
     ) {
-        $this->name = $name;
-        $this->decoder = $decoder;
-        $this->encoder = $encoder;
-        $this->builder = $builder;
-        $this->validator = $validator;
-        $this->signer = $signer;
     }
 
     /**
