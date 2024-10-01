@@ -6,8 +6,8 @@
     "license": "MIT",
     "require": {
         "php": ">=8.1",
-        "symfony/framework-bundle": "^6.0",
-        "symfony/dependency-injection": "^6.0",
+        "symfony/framework-bundle": "^6.0|^7.0",
+        "symfony/dependency-injection": "^6.0|^7.0",
         "marvin255/jwt": "^2.0"
     },
     "require-dev": {
