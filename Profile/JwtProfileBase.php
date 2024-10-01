@@ -23,7 +23,7 @@ final class JwtProfileBase implements JwtProfile
         private readonly JwtEncoder $encoder,
         private readonly JwtBuilder $builder,
         private readonly JwtValidator $validator,
-        private readonly ?JwtSigner $signer = null
+        private readonly ?JwtSigner $signer = null,
     ) {
     }
 
