@@ -27,7 +27,7 @@ final class ProfileDIManager
 {
     public function __construct(
         private readonly string $name,
-        private readonly array $description
+        private readonly array $description,
     ) {
     }
 
