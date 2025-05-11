@@ -50,7 +50,7 @@ use RuntimeException;
 
 final class SiteController extends AbstractController
 {
-    public function __construct(private JwtProfileManager $manager)
+    public function __construct(private JwtProfileManager $jwtProfileManager)
     {
     }
 
