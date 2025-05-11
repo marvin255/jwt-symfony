@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php-versions: ['8.1', '8.2', '8.3']
+        php-versions: ['8.3']
     steps:
     - uses: actions/checkout@v2
     - name: Install PHP
@@ -24,7 +24,7 @@ jobs:
       id: composer-cache-dir
       run: echo "::set-output name=dir::$(composer config cache-files-dir)"
     - name: Cache dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.composer-cache-dir.outputs.dir }}
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -32,6 +32,8 @@ jobs:
       run: composer install --prefer-dist --no-progress
     - name: Run linters
       run: composer run-script linter
+    - name: Run mutation testing
+      run: composer run-script infection
     - name: Run test suite
       run: composer run-script test
 
@@ -41,8 +43,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions: ['8.2', '8.3']
-        symfony-versions: ['6.4', '7.1']
+        php-versions: ['8.3']
+        symfony-versions: ['6.4', '7.2']
     env:
       SYMFONY_FOLDER: symfony_app
     steps:
@@ -55,7 +57,7 @@ jobs:
           extensions: mbstring, dom, fileinfo, mysql, curl
       - name: Cache Symfony app
         id: symfony-app-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: symfony_app_tmp
           key: ${{ runner.os }}-symfony-${{ matrix.symfony-versions }}-${{ matrix.php-versions }}
