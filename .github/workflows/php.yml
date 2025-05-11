@@ -32,6 +32,8 @@ jobs:
       run: composer install --prefer-dist --no-progress
     - name: Run linters
       run: composer run-script linter
+    - name: Run mutation testing
+      run: composer run-script infection
     - name: Run test suite
       run: composer run-script test
 
