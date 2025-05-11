@@ -22,6 +22,7 @@ final class Configuration implements ConfigurationInterface
      *
      * @psalm-suppress UndefinedMethod
      */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder(self::CONFIG_NAME);

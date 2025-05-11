@@ -21,6 +21,7 @@ final class Marvin255JwtSymfonyExtension extends Extension
      *
      * @throws \Exception
      */
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loadedConfig = $this->loadConfigurationToContainer($configs, $container);

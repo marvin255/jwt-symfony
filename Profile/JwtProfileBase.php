@@ -30,6 +30,7 @@ final class JwtProfileBase implements JwtProfile
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -38,6 +39,7 @@ final class JwtProfileBase implements JwtProfile
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getEncoder(): JwtEncoder
     {
         return $this->encoder;
@@ -46,6 +48,7 @@ final class JwtProfileBase implements JwtProfile
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getDecoder(): JwtDecoder
     {
         return $this->decoder;
@@ -54,6 +57,7 @@ final class JwtProfileBase implements JwtProfile
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getBuilder(): JwtBuilder
     {
         if ($this->signer !== null) {
@@ -66,6 +70,7 @@ final class JwtProfileBase implements JwtProfile
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getValidator(): JwtValidator
     {
         return $this->validator;
@@ -74,6 +79,7 @@ final class JwtProfileBase implements JwtProfile
     /**
      * {@inheritDoc}
      */
+    #[\Override]
     public function getSigner(): ?JwtSigner
     {
         return $this->signer;

@@ -23,7 +23,4 @@
         <MixedArgument errorLevel="suppress"/>
         <MixedArrayOffset errorLevel="suppress"/>
     </issueHandlers>
-
-    <plugins>
-    </plugins>
 </psalm>
