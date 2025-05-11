@@ -48,13 +48,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use RuntimeException;
 
-class SiteController extends AbstractController
+final class SiteController extends AbstractController
 {
-    private JwtProfileManager $manager;
-
-    public function __construct(JwtProfileManager $manager)
+    public function __construct(private JwtProfileManager $manager)
     {
-        $this->manager = $manager;
     }
 
     public function read(Request $request): void
