@@ -16,7 +16,7 @@ final class JwtProfileManagerTest extends BaseCase
     public function testConstructorException(): void
     {
         $exceptionMessage = 'JWT profile must implements ' . JwtProfile::class;
-        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
+        $profile = $this->createStub(JwtProfile::class);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($exceptionMessage);
@@ -32,12 +32,10 @@ final class JwtProfileManagerTest extends BaseCase
     {
         $name = 'test_1';
 
-        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
+        $profile = $this->createStub(JwtProfile::class);
         $profile->method('getName')->willReturn('test');
 
-        $profile1 = $this->getMockBuilder(JwtProfile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile1 = $this->createStub(JwtProfile::class);
         $profile1->method('getName')->willReturn($name);
 
         $manager = new JwtProfileManager(
@@ -53,12 +51,10 @@ final class JwtProfileManagerTest extends BaseCase
 
     public function testProfileDefault(): void
     {
-        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
+        $profile = $this->createStub(JwtProfile::class);
         $profile->method('getName')->willReturn('test');
 
-        $profile1 = $this->getMockBuilder(JwtProfile::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $profile1 = $this->createStub(JwtProfile::class);
         $profile1->method('getName')->willReturn('test_1');
 
         $manager = new JwtProfileManager(
@@ -77,7 +73,7 @@ final class JwtProfileManagerTest extends BaseCase
         $name = 'test_1';
         $exceptionMessage = "Can't find profile with name {$name}";
 
-        $profile = $this->getMockBuilder(JwtProfile::class)->getMock();
+        $profile = $this->createStub(JwtProfile::class);
         $profile->method('getName')->willReturn('test');
 
         $manager = new JwtProfileManager(
