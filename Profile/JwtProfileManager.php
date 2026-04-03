@@ -18,7 +18,7 @@ final class JwtProfileManager
     {
         $returnProfiles = [];
         foreach ($profiles as $profile) {
-            if (!($profile instanceof JwtProfile)) {
+            if (!$profile instanceof JwtProfile) {
                 throw new \InvalidArgumentException('JWT profile must implements ' . JwtProfile::class);
             }
             $returnProfiles[$profile->getName()] = $profile;
@@ -39,11 +39,11 @@ final class JwtProfileManager
         $profile = null;
         if ($name === null && $defaultKey !== null) {
             $profile = $this->profiles[$defaultKey];
-        } elseif (isset($this->profiles[$name])) {
+        } elseif ($name !== null && isset($this->profiles[$name])) {
             $profile = $this->profiles[$name];
         }
 
-        if (!($profile instanceof JwtProfile)) {
+        if (!$profile instanceof JwtProfile) {
             throw new \InvalidArgumentException("Can't find profile with name {$name}");
         }
 

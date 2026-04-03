@@ -2,13 +2,13 @@
 
 [![Build Status](https://github.com/marvin255/jwt-symfony/workflows/jwt_symfony/badge.svg)](https://github.com/marvin255/jwt-symfony/actions?query=workflow%3A%22jwt_symfony%22)
 
-Symfony bundle for [marvin255/jwt](https://github.com/marvin255/jwt) lib.
+Symfony bundle for the [marvin255/jwt](https://github.com/marvin255/jwt) library.
 
 
 
 ## Installation
 
-Install bundle via composer
+Install the bundle via Composer
 
 ```shell
 composer req marvin255/jwt-symfony
@@ -18,7 +18,7 @@ composer req marvin255/jwt-symfony
 
 ## Configuration
 
-Set up one or more profiles in configuration
+Set up one or more profiles in your configuration
 
 ```yaml
 # config/packages/marvin255_jwt_symfony.yaml
@@ -56,15 +56,15 @@ final class SiteController extends AbstractController
 
     public function read(Request $request): void
     {
-        // select profile
+        // Select profile
         $jwtProfile = $this->jwtProfileManager->profile('basic');
 
         $tokenHeader = $request->headers->get('Authorization');
 
-        // decode token from header string
+        // Decode the token from the header string
         $token = $jwtProfile->getDecoder()->decodeString($tokenHeader);
 
-        // validate token
+        // Validate the token
         $validationResult = $jwtProfile->getValidator()->validate($token);
         if (!$validationResult->isValid()) {
             $message = implode('. ', $validationResult->getErrors());
@@ -74,15 +74,15 @@ final class SiteController extends AbstractController
 
     public function build(): void
     {
-        // select profile
+        // Select profile
         $jwtProfile = $this->jwtProfileManager->profile('basic');
 
-        // decode token from header string
+        // Build a token
         $token = $jwtProfile
             ->getBuilder()
-            ->setJoseParam('test', 'test') // any custom JOSE param
-            ->setIss('test')               // registered claims have own setters
-            ->setClaim('test', 'test')     // any custom claim
+            ->setJoseParam('test', 'test') // Any custom JOSE parameter
+            ->setIss('test')               // Registered claims have their own setters
+            ->setClaim('test', 'test')     // Any custom claim
             ->build();
     }
 }
